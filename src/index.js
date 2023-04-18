@@ -11,8 +11,13 @@ const PORT = process.env.PORT || 4000
 
 const httpServer = createServer(app)
 
-app.use(cors())
-app.options('*', cors());
+const corsConfig = {
+    origin: true,
+    credentials: true,
+};
+
+app.use(cors(corsConfig))
+app.options('*', cors(corsConfig));
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 app.use(sessions({
