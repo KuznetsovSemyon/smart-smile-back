@@ -4,12 +4,15 @@ const { createServer } = require('http')
 const apiRouter = require('./routes/api-router.js')
 const sessions = require('express-session')
 const cookieParser = require('cookie-parser')
+const cors = require('cors')
 
 const app = express()
 const PORT = process.env.PORT || 4000
 
 const httpServer = createServer(app)
 
+app.use(cors())
+app.options('*', cors());
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: true }))
 app.use(sessions({
