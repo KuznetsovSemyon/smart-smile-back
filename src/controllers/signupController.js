@@ -25,7 +25,6 @@ class SignupController {
             const user = await signupService.signup(name, surname, birthday, sex, country, city, userRole.id,
                 educationInstitution, email, password)
 
-            console.log(user)
             return res.status(200).json(user.getAllInfo());
         } catch (e) {
             res.status(400).json({ error: true, message: e.message || e });
