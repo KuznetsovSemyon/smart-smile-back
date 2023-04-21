@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
+      User.belongsToMany(models.Game, {
+        foreignKey: 'userId',
+        through: models.Favorite_Game,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
       User.hasMany(models.Class,{
         foreignKey: 'classOwner',
         onDelete: 'CASCADE',

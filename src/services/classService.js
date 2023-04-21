@@ -1,7 +1,8 @@
 const db = require('../../models/index');
 const {
     Class,
-    User_Class
+    User_Class,
+    Verification
 } = db;
 
 const genCode = (length) => {
@@ -49,9 +50,11 @@ class ClassService {
         }
     }
 
-    async joinClass() {
+    async joinClass(cl, user) {
         try {
+            const newVerification = await Verification.create({ userId: cl.id, userId: user.id })
 
+            return newVerification
         } catch (e) {
             return new Error(e)
         }

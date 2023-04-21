@@ -27,7 +27,7 @@ class SignupController {
 
             return res.status(200).json(user.getAllInfo());
         } catch (e) {
-            res.status(400).json({ error: true, message: e.message || e });
+            return res.status(400).json({ error: true, message: e.message || e });
         }
     }
 }

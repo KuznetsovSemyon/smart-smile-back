@@ -4,20 +4,51 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Game extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Game.belongsToMany(models.Category, {
+        foreignKey: 'gameId',
+        through: models.Game_Category,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
+      Game.belongsToMany(models.User, {
+        foreignKey: 'gameId',
+        through: models.Favorite_Game,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   Game.init({
-    name: DataTypes.STRING
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    imageUrl: {
+      type: DataTypes.TEXT,
+    },
+    description: {
+      type: DataTypes.TEXT,
+    },
+    order: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
+    isOnline: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+    } ,
+    isBlocked: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    }
   }, {
+    timestamps: true,
     sequelize,
     modelName: 'Game',
+    tableName: 'games',
   });
   return Game;
 };

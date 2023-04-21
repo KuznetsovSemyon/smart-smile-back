@@ -4,20 +4,23 @@ const {
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Game_Category extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-    }
+    static associate(models) {}
   }
   Game_Category.init({
-    name: DataTypes.STRING
+    categoryId: {
+      type: DataTypes.INTEGER
+    },
+    gameId: {
+      type: DataTypes.INTEGER
+    },
+    order: {
+      type: DataTypes.INTEGER
+    },
   }, {
+    timestamps: true,
     sequelize,
     modelName: 'Game_Category',
+    tableName: 'game_categories',
   });
   return Game_Category;
 };

@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       status: {
-        type: DataTypes.ENUM('new', 'approved', 'declined'),
+        type: Sequelize.ENUM('new', 'approved', 'declined'),
         defaultValue: 'new',
       },
       userId: {
