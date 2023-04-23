@@ -18,12 +18,12 @@ const genCode = (length) => {
 class ClassService {
     async createClass(label, user) {
         try {
-            let joinLink = genCode(10)
-            let classJoinLink = await Class.findOne({ where: { joinLink }})
+            let joinCode = genCode(10)
+            let classJoinCode = await Class.findOne({ where: { joinCode }})
 
-            while (classJoinLink) {
-                joinLink = genCode(10)
-                classJoinLink = await Class.findOne({ where: { joinLink }})
+            while (classJoinCode) {
+                joinCode = genCode(10)
+                classjoinCode = await Class.findOne({ where: { joinCode }})
             }
 
             const newClassConfig = {
@@ -32,7 +32,7 @@ class ClassService {
                 city: user.city,
                 country: user.country,
                 classOwner: user.id,
-                joinLink
+                joinCode
             }
 
             const newClass = await Class.create(newClassConfig)

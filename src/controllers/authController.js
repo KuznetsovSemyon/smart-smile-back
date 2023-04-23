@@ -8,6 +8,8 @@ class AuthController {
 
     async authMe(req, res) {
         try {
+            console.log(typeof(req))
+            console.log(typeof(res))
             if (!req.session || !req.session.user) {
                 return res.status(401).json({ error: true, message: "You must be logged in" });
             }

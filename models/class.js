@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    joinLink: {
+    joinCode: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -59,7 +59,7 @@ module.exports = (sequelize, DataTypes) => {
       city: this.city,
       educationInstitution: this.educationInstitution,
       classOwner: this.classOwner,
-      joinLink: this.joinLink
+      joinCode: this.joinCode
     };
     return response;
   }

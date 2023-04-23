@@ -19,13 +19,13 @@ class ClassController {
     
     async joinClass(req, res) {
         try {
-            const { joinLink } = req.body
+            const { joinCode } = req.body
             const user = req.session.user
 
-            const cl = await Class.findOne({ where: { joinLink } })
+            const cl = await Class.findOne({ where: { joinCode } })
             if (!cl)
                 res.status(404).json({ error: true, message: 'Class not found' })
-            if (cl.joinLink !== joinLink)
+            if (cl.joinCode !== joinCode)
                 res.status(400).json({ error: true, message: 'Code is wrong' })
 
             const newVerification = classService.joinClass(cl, user)

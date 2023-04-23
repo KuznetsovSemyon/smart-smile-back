@@ -14,6 +14,9 @@ router.delete('/logout', authController.logout)
 
 router.post('/class/create', classController.createClass)
 router.post('/class/join', classController.joinClass)
+//router.patch('/class/:id/update', classController.updateClass)
+//router.patch('/class/:id/student/:id/delete', classController.deleteStudent)
+//router.delete('/class/:id/delete', classController.deleteClass)
 
 router.post('/game/create', imageUpload, gameController.createGame)
 router.post('/game/:id/add/favorite', gameController.addGameToFavorite)
