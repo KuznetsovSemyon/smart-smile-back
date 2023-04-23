@@ -65,7 +65,7 @@ exports.signup = [
         .isEmail()
         .withMessage('is invalid')
         .bail(),
-    body('sex')
+    body('gender')
         .exists()
         .withMessage('is required')
         .bail()

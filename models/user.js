@@ -48,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.DATE,
       allowNull: false,
     },
-    sex:{
+    gender:{
       type: DataTypes.ENUM('Mr', 'Mrs'),
       defaultValue: 'Mr',
     },
@@ -90,7 +90,7 @@ module.exports = (sequelize, DataTypes) => {
       surname: this.surname,
       email: this.email,
       birthday: this.birthday,
-      sex: this.sex,
+      gender: this.gender,
       country: this.country,
       city: this.city,
       educationInstitution: this.educationInstitution,

@@ -7,7 +7,7 @@ const {
 class SignupController {
     async signup(req, res) {
         try {
-            let { name, surname, birthday, sex, country, city, role,
+            let { name, surname, birthday, gender, country, city, role,
                 educationInstitution, email, password,
                 confirmPassword, isTermsAccepted } = req.body;
 
@@ -22,7 +22,7 @@ class SignupController {
 
             if (isTermsAccepted != true) return res.status(400).json({ error: true, message: "Terms not accepted" });
 
-            const user = await signupService.signup(name, surname, birthday, sex, country, city, userRole.id,
+            const user = await signupService.signup(name, surname, birthday, gender, country, city, userRole.id,
                 educationInstitution, email, password)
 
             return res.status(200).json(user.getAllInfo());
