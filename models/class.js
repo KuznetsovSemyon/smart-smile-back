@@ -5,14 +5,8 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Class extends Model {
     static associate(models) {
-      Class.belongsToMany(models.User, {
+      Class.hasMany(models.User_Class, {
         foreignKey: 'classId',
-        through: models.User_Class,
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      });
-      Class.belongsTo(models.User, {
-        foreignKey: 'classOwner',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
@@ -36,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    classOwner: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     joinCode: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -58,7 +48,6 @@ module.exports = (sequelize, DataTypes) => {
       country: this.country,
       city: this.city,
       educationInstitution: this.educationInstitution,
-      classOwner: this.classOwner,
       joinCode: this.joinCode
     };
     return response;

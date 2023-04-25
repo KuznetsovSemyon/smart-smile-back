@@ -28,6 +28,23 @@ class gameService {
         }
     }
 
+    async getGame(id) {
+        try {
+            const response = await Game.findByPk(id, {
+                where: {
+                    isBlocked: false
+                }
+            })
+
+            if(!response)
+                return { error: true, message: 'Game not found' }
+
+            return response
+        } catch(e) {
+            throw new Error(e)
+        }
+    }
+
     async removeGameFromFavorite(id, user) {
         try {
             const destroyed = await Favorite_Game.destroy({ userId: user.id, gameId: id })

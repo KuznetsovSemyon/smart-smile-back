@@ -103,6 +103,20 @@ class GameController {
         }
     }
 
+    async getGame(req, res) {
+        try {
+            const { id } = req.params
+
+            const response = await gameService.getGame(id)
+            if (response?.error)
+                return res.status(404).json(response);
+
+            return res.status(200).json(response);
+        } catch(e) {
+            return res.status(400).json({ error: true, message: e.message || e });
+        }
+    }
+
     async updateGame(req, res) {
         try {
             const { id } = req.params

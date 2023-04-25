@@ -7,9 +7,8 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.belongsTo(models.Role, { foreignKey: 'roleId' });
-      User.belongsToMany(models.Class, {
+      User.hasMany(models.User_Class, {
         foreignKey: 'userId',
-        through: models.User_Class,
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
@@ -19,11 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
-      User.hasMany(models.Class,{
-        foreignKey: 'classOwner',
-        onDelete: 'CASCADE',
-        onUpdate: 'CASCADE',
-      })
     }
   }
   User.init({
