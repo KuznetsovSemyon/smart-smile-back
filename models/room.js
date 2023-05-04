@@ -3,16 +3,16 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Class extends Model {
+  class Room extends Model {
     static associate(models) {
-      Class.hasMany(models.User_Class, {
-        foreignKey: 'classId',
+      Room.hasMany(models.User_Room, {
+        foreignKey: 'roomId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
     }
   }
-  Class.init({
+  Room.init({
     label: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -37,11 +37,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: true,
     sequelize,
-    modelName: 'Class',
-    tableName: 'classes'
+    modelName: 'Room',
+    tableName: 'rooms'
   });
 
-  Class.prototype.getAllInfo = function () {
+  Room.prototype.getAllInfo = function () {
     const response = {
       id: this.id,
       label: this.label,
@@ -52,5 +52,5 @@ module.exports = (sequelize, DataTypes) => {
     };
     return response;
   }
-  return Class;
+  return Room;
 };

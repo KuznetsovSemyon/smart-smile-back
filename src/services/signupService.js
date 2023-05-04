@@ -15,7 +15,7 @@ const genPassword = (password) => {
 
 class SignupService {
     async signup(name, surname, birthday, gender, country, city, roleId,
-    educationInstitution, email, password) {
+    educationInstitution, studentClass, email, password) {
         try{
 
             birthday = new Date(birthday);
@@ -32,6 +32,7 @@ class SignupService {
                 country,
                 city,
                 educationInstitution,
+                class: studentClass,
                 salt,
                 hash
             };

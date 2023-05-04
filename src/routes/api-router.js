@@ -3,7 +3,7 @@ const { imageUpload } = require('../middlewares/multerSetup');
 const signupValid = require('../middlewares/signupValid');
 const signupController = require('../controllers/signupController')
 const authController = require('../controllers/authController')
-const classController = require('../controllers/classController')
+const roomController = require('../controllers/roomController')
 const gameController = require('../controllers/gameController')
 const verificationController = require('../controllers/verificationController')
 
@@ -13,20 +13,20 @@ router.get('/auth/me', authController.authMe)
 router.post('/login', authController.login)
 router.delete('/logout', authController.logout)
 
-router.post('/class/create', classController.createClass)
-router.post('/class/join', verificationController.createVer)
-router.get('/class', classController.getClassList)
-router.get('/class/:id', classController.getClassInfo)
-router.get('/class/:id/applications', verificationController.getVerList)
-router.patch('/class/:id/applications/:userId', verificationController.changeVerStatus)
-router.delete('/class/leave/:id', classController.leaveClass)
+router.post('/room/create', roomController.createRoom)
+router.post('/room/join', verificationController.createVer)
+router.get('/room', roomController.getRoomList)
+router.get('/room/:id', roomController.getRoomInfo)
+router.get('/room/:id/applications', verificationController.getVerList)
+router.patch('/room/:id/applications/:userId', verificationController.changeVerStatus)
+router.delete('/room/leave/:id', roomController.leaveRoom)
 
-//router.patch('/class/:id/update', classController.updateClass)
-//router.patch('/class/:id/student/:id/delete', classController.deleteStudent)
-//router.delete('/class/:id/delete', classController.deleteClass)
+//router.patch('/room/:id/update', roomController.updateRoom)
+//router.patch('/room/:id/student/:id/delete', roomController.deleteStudent)
+//router.delete('/room/:id/delete', roomController.deleteRoom)
 
-router.get('/class/:id/verifications', verificationController.getVerList)
-router.patch('class/:classId/verifications/:userId', verificationController.changeVerStatus)
+router.get('/room/:id/verifications', verificationController.getVerList)
+router.patch('room/:roomId/verifications/:userId', verificationController.changeVerStatus)
 
 
 router.post('/game/create', imageUpload, gameController.createGame)

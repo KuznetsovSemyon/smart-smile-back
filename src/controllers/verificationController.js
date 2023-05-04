@@ -2,8 +2,8 @@ const verificationService = require('../services/verificationService')
 const db = require('../../models/index');
 const {
     Verification,
-    User_Class,
-    Class
+    User_Room,
+    Room
 } = db;
 
 class VerificationController {
@@ -12,9 +12,9 @@ class VerificationController {
             const { joinCode } = req.body
             const user = req.session.user
 
-            const cl = await Class.findOne({ where: { joinCode } })
+            const cl = await Room.findOne({ where: { joinCode } })
             if (!cl)
-                return res.status(404).json({ error: true, message: 'Class not found' })
+                return res.status(404).json({ error: true, message: 'Room not found' })
             if (cl.joinCode !== joinCode)
                 return res.status(400).json({ error: true, message: 'Code is wrong' })
 
@@ -31,16 +31,16 @@ class VerificationController {
             const userId = req.session.user.id
             const id = req.params.id
 
-            const ownedClass = await User_Class.findOne({
+            const ownedRoom = await User_Room.findOne({
                 where: {
                     userId,
-                    classId: id,
-                    isClassOwner: true
+                    roomId: id,
+                    isRoomOwner: true
                 }
             })
 
-            if(!ownedClass)
-                return res.status(404).json({ error: true, message: 'You have not created the class' })
+            if(!ownedRoom)
+                return res.status(404).json({ error: true, message: 'You have not created the room' })
 
             let response = await verificationService.getVerList(id)
 
@@ -53,25 +53,25 @@ class VerificationController {
     async changeVerStatus(req, res) {
         try {
             const id = req.session.user.id
-            const classId = req.params.id
+            const roomId = req.params.id
             const userId = req.params.userId
             const { status } = req.body
 
-            const ownedClass = await User_Class.findOne({
+            const ownedRoom = await User_Room.findOne({
                 where: {
                     userId: id,
-                    classId,
-                    isClassOwner: true
+                    roomId,
+                    isRoomOwner: true
                 }
             })
 
-            if(!ownedClass)
-                return res.status(400).json({ error: true, message: 'You have not created the class' })
+            if(!ownedRoom)
+                return res.status(400).json({ error: true, message: 'You have not created the room' })
 
             const verification = await Verification.findOne({
                 where: {
                     userId,
-                    classId, 
+                    roomId, 
                 }
             })
 

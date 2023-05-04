@@ -1,15 +1,15 @@
 const db = require('../../models/index');
 const {
     Verification,
-    User_Class
+    User_Room
 } = db;
 
 class VerificationService {
-    async chackVerStatus(userId, classId) {
+    async chackVerStatus(userId, roomId) {
         try {
 
             const verification = await Verification.findOne({ 
-                where: { userId, classId },
+                where: { userId, roomId },
                 order: [['createdAt', 'DESC']]
             })
 
@@ -53,19 +53,19 @@ class VerificationService {
         }
     }
 
-    async getVerList(classId) {
+    async getVerList(roomId) {
         try { 
             let response = []
 
             const verList = await Verification.findAll({
                 where: {
-                    classId,
+                    roomId,
                     status: 'new'
                 }
             })
 
             response.push({
-                classId,
+                roomId,
                 verifications: verList
             })
 
@@ -82,13 +82,13 @@ class VerificationService {
             await ver.save()
 
             if (status == 'approved') {
-                const newUser_Class = {
+                const newUser_Room = {
                     userId: ver.userId,
-                    classId: ver.classId,
-                    isClassOwner: false
+                    roomId: ver.roomId,
+                    isRoomOwner: false
                 }
     
-                await User_Class.create(newUser_Class)
+                await User_Room.create(newUser_Room)
             }
             
             return ver

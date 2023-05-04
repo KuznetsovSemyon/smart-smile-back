@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class Verification extends Model {
     static associate(models) {
       Verification.belongsTo(models.User, { foreignKey: 'userId' });
-      Verification.belongsTo(models.Class, { foreignKey: 'classId' });
+      Verification.belongsTo(models.Room, { foreignKey: 'roomId' });
     }
   }
   Verification.init({
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    classId: {
+    roomId: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

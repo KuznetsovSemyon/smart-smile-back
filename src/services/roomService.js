@@ -1,7 +1,7 @@
 const db = require('../../models/index');
 const {
-    Class,
-    User_Class,
+    Room,
+    User_Room,
     Verification,
     User
 } = db;
@@ -16,18 +16,18 @@ const genCode = (length) => {
     return result;
 }
 
-class ClassService {
-    async createClass(label, user) {
+class RoomService {
+    async createRoom(label, user) {
         try {
             let joinCode = genCode(10)
-            let classJoinCode = await Class.findOne({ where: { joinCode }})
+            let roomJoinCode = await Room.findOne({ where: { joinCode }})
 
-            while (classJoinCode) {
+            while (roomJoinCode) {
                 joinCode = genCode(10)
-                classjoinCode = await Class.findOne({ where: { joinCode }})
+                roomjoinCode = await Room.findOne({ where: { joinCode }})
             }
 
-            const newClassConfig = {
+            const newRoomConfig = {
                 label,
                 educationInstitution: user.educationInstitution,
                 city: user.city,
@@ -35,42 +35,42 @@ class ClassService {
                 joinCode
             }
 
-            const newClass = await Class.create(newClassConfig)
+            const newRoom = await Room.create(newRoomConfig)
 
-            const newUser_Class = {
+            const newUser_Room = {
                 userId: user.id,
-                classId: newClass.id,
-                isClassOwner: true
+                roomId: newRoom.id,
+                isRoomOwner: true
             }
 
-            await User_Class.create(newUser_Class)
+            await User_Room.create(newUser_Room)
 
-            return newClass
+            return newRoom
         } catch (e) {
             return new Error(e)
         }
     }
 
-    async getClassMembers(classId) {
+    async getRoomMembers(roomId) {
         try {
             let response = {}
             response.teachers = []
             response.students = []
 
-            const allClassMembers = await User_Class.findAll({
-                where: { classId },
+            const allRoomMembers = await User_Room.findAll({
+                where: { roomId },
                 include: [{
                     model: User,
                 }] 
             })
 
-            allClassMembers.forEach((usCl) => {
+            allRoomMembers.forEach((usCl) => {
                 if(usCl.User.roleId == 3)
                     response.students.push(usCl.User.getAllInfo())
                 else if(usCl.User.roleId == 2) {
                     response.teachers.push(usCl.User.getAllInfo())
-                    if(usCl.isClassOwner == true)
-                        response.classOwner = usCl.User.getAllInfo()
+                    if(usCl.isRoomOwner == true)
+                        response.roomOwner = usCl.User.getAllInfo()
                 }
             })
 
@@ -80,11 +80,11 @@ class ClassService {
         }
     }
 
-    async countClassMembers(classId) {
+    async countRoomMembers(roomId) {
         try {
-            const membersCount = await User_Class.count({
+            const membersCount = await User_Room.count({
                 where: {
-                    classId
+                    roomId
                 }
             })
             return membersCount
@@ -93,12 +93,12 @@ class ClassService {
         }
     }
 
-    async getClassList(userId) {
+    async getRoomList(userId) {
         try {
-            let classList = await User_Class.findAll({
+            let roomList = await User_Room.findAll({
                 where: { userId },
                 include: [{
-                    model: Class,
+                    model: Room,
                 }] 
             })
 
@@ -106,19 +106,19 @@ class ClassService {
             response.owner = []
             response.member = []
 
-            for (const usCl of classList) {
-                if(usCl.isClassOwner == true) {
+            for (const usCl of roomList) {
+                if(usCl.isRoomOwner == true) {
                     response.owner.push({
                         id: usCl.id,
                         label: usCl.label,
-                        membersCount: await this.countClassMembers(usCl.classId),
+                        membersCount: await this.countRoomMembers(usCl.roomId),
                         createdAt: usCl.createdAt
                     })
                 } else {
                     response.member.push({
                         id: usCl.id,
                         label: usCl.label,
-                        membersCount: await this.countClassMembers(usCl.classId),
+                        membersCount: await this.countRoomMembers(usCl.roomId),
                         createdAt: usCl.createdAt
                     })
                 }
@@ -130,20 +130,20 @@ class ClassService {
         }
     }
 
-    async leaveClass(classId, userId) {
+    async leaveRoom(roomId, userId) {
         try {
-            await User_Class.destroy({
+            await User_Room.destroy({
                 where: {
-                    classId,
+                    roomId,
                     userId
                 }
             })
             
-            return 'You have leaved the class'
+            return 'You have leaved the room'
         } catch {
             throw new Error(e)
         }
     }
 }
 
-module.exports = new ClassService()
+module.exports = new RoomService()

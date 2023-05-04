@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       User.belongsTo(models.Role, { foreignKey: 'roleId' });
-      User.hasMany(models.User_Class, {
+      User.hasMany(models.User_Room, {
         foreignKey: 'userId',
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
@@ -57,6 +57,9 @@ module.exports = (sequelize, DataTypes) => {
     educationInstitution: {
       type: DataTypes.STRING,
     },
+    class: {
+      type: DataTypes.STRING,
+    },
     salt: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -88,6 +91,7 @@ module.exports = (sequelize, DataTypes) => {
       country: this.country,
       city: this.city,
       educationInstitution: this.educationInstitution,
+      class: this.class
     };
     if (this.Role) response.role = this.Role.label;
     return response;
